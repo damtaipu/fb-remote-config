@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "src/environments/environment";
-import { getRemoteConfig } from "firebase/remote-config";
+import { getBoolean, getRemoteConfig } from "firebase/remote-config";
 import { getValue } from "firebase/remote-config";
 import { fetchAndActivate, fetchConfig } from "firebase/remote-config";
 
@@ -12,6 +12,8 @@ import { fetchAndActivate, fetchConfig } from "firebase/remote-config";
 })
 
 export class AppComponent {
+
+  showElement: boolean = false;
   
   constructor(){
     const app = initializeApp(firebaseConfig);
@@ -19,18 +21,16 @@ export class AppComponent {
 
     remoteConfig.settings = {
       fetchTimeoutMillis: 60000,
-      minimumFetchIntervalMillis: 1
+      minimumFetchIntervalMillis: 1000
     }
 
     remoteConfig.defaultConfig = ({
-      'teste_show_key': true
+      'teste_show_key': false
     });
 
     fetchAndActivate(remoteConfig).then(() => {
-      const fbRC = getValue(remoteConfig, 'teste_show_key').asBoolean();
-      if(fbRC){
-        console.log('Ganhei desconto')
-      }
+      const fbRC = getBoolean(remoteConfig, 'teste_show_key');
+      if (fbRC) this.showElement = fbRC;
     })
   }
 
