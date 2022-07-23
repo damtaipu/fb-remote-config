@@ -1,4 +1,4 @@
-# Fire Base Remote Config - Angular 14 
+# Fire Base Remote Config
 ### Angular 14 
 
 Template funcional para referência de implementação do Firebase Remote Config no Angular 14. 
